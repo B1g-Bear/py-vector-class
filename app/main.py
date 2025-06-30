@@ -1,30 +1,31 @@
 import math
 
+
 class Vector:
-    def __init__(self, x: float, y: float) -> None:
-        self.x = round(x, 2)
-        self.y = round(y, 2)
+    def __init__(self, coordinate_x: float, coordinate_y: float) -> None:
+        self.x = round(coordinate_x, 2)
+        self.y = round(coordinate_y, 2)
 
-    def __add__(self, other: "Vector") -> "Vector":
-        return Vector(self.x + other.x, self.y + other.y)
+    def __add__(self, other_vector: "Vector") -> "Vector":
+        return Vector(self.x + other_vector.x, self.y + other_vector.y)
 
-    def __sub__(self, other: "Vector") -> "Vector":
-        return Vector(self.x - other.x, self.y - other.y)
+    def __sub__(self, other_vector: "Vector") -> "Vector":
+        return Vector(self.x - other_vector.x, self.y - other_vector.y)
 
-    def __mul__(self, other):
+    def __mul__(self, other: object) -> object:
         if isinstance(other, Vector):
             return round(self.x * other.x + self.y * other.y, 4)
         else:
             return Vector(self.x * other, self.y * other)
 
     @classmethod
-    def create_vector_by_two_points(cls, start_point: tuple, end_point: tuple) -> "Vector":
-        x = end_point[0] - start_point[0]
-        y = end_point[1] - start_point[1]
-        return cls(x, y)
+    def create_vector_by_two_points(cls, start_point: tuple[float, float], end_point: tuple[float, float]) -> "Vector":
+        delta_x = end_point[0] - start_point[0]
+        delta_y = end_point[1] - start_point[1]
+        return cls(delta_x, delta_y)
 
     def get_length(self) -> float:
-        return math.sqrt(self.x**2 + self.y**2)
+        return math.sqrt(self.x ** 2 + self.y ** 2)
 
     def get_normalized(self) -> "Vector":
         length = self.get_length()
@@ -32,15 +33,15 @@ class Vector:
             return Vector(0, 0)
         return Vector(self.x / length, self.y / length)
 
-    def angle_between(self, other: "Vector") -> int:
-        dot = self * other
-        len_self = self.get_length()
-        len_other = other.get_length()
-        if len_self == 0 or len_other == 0:
+    def angle_between(self, other_vector: "Vector") -> int:
+        dot_product = self * other_vector
+        length_self = self.get_length()
+        length_other = other_vector.get_length()
+        if length_self == 0 or length_other == 0:
             return 0
-        cos_a = dot / (len_self * len_other)
-        cos_a = max(min(cos_a, 1), -1)
-        angle_deg = math.degrees(math.acos(cos_a))
+        cosine_angle = dot_product / (length_self * length_other)
+        cosine_angle = max(min(cosine_angle, 1), -1)
+        angle_deg = math.degrees(math.acos(cosine_angle))
         return round(angle_deg)
 
     def get_angle(self) -> int:
@@ -54,6 +55,6 @@ class Vector:
         radians = math.radians(degrees)
         cos_theta = math.cos(radians)
         sin_theta = math.sin(radians)
-        x_new = self.x * cos_theta - self.y * sin_theta
-        y_new = self.x * sin_theta + self.y * cos_theta
-        return Vector(x_new, y_new)
+        rotated_x = self.x * cos_theta - self.y * sin_theta
+        rotated_y = self.x * sin_theta + self.y * cos_theta
+        return Vector(rotated_x, rotated_y)
