@@ -19,7 +19,11 @@ class Vector:
             return Vector(self.x * other, self.y * other)
 
     @classmethod
-    def create_vector_by_two_points(cls, start_point: tuple[float, float], end_point: tuple[float, float]) -> "Vector":
+    def create_vector_by_two_points(
+        cls,
+        start_point: tuple[float, float],
+        end_point: tuple[float, float]
+    ) -> "Vector":
         delta_x = end_point[0] - start_point[0]
         delta_y = end_point[1] - start_point[1]
         return cls(delta_x, delta_y)
