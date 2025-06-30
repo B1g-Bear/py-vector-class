@@ -14,7 +14,7 @@ class Vector:
 
     def __mul__(self, other: object) -> object:
         if isinstance(other, Vector):
-            return round(self.x * other.x + self.y * other.y, 4)
+            return self.x * other.x + self.y * other.y
         else:
             return Vector(self.x * other, self.y * other)
 
@@ -49,10 +49,7 @@ class Vector:
         return round(angle_deg)
 
     def get_angle(self) -> int:
-        angle_rad = math.atan2(self.x, self.y)
-        angle_deg = math.degrees(angle_rad)
-        if angle_deg < 0:
-            angle_deg += 360
+        angle_deg = (360 - math.degrees(math.atan2(self.x, self.y))) % 360
         return round(angle_deg)
 
     def rotate(self, degrees: int) -> "Vector":
